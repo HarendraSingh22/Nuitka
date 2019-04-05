@@ -130,6 +130,13 @@ def getCPythonResults(cpython_cmd, cpython_cached):
             hash_salt = hash_salt.encode("utf8")
         command_hash.update(hash_salt)
 
+        if os.name == "nt":
+            curdir = os.getcwdu()
+        else:
+            curdir = os.getcwd()
+
+        command_hash.update(curdir.encode("utf8"))
+
         cache_filename = os.path.join(
             getTestingCPythonOutputsCacheDir(), command_hash.hexdigest()
         )
